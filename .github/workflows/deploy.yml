@@ -2,7 +2,7 @@
 # Target subdomain: reference-v2.zionpayment.com (привязка через CF dashboard).
 #
 # Project в CF Pages: zion-api-reference (preview URL zion-api-reference.pages.dev).
-# CLOUDFLARE_ACCOUNT_ID — публичный идентификатор, хранится здесь (не secret).
+# accountId — публичный идентификатор, хранится прямо в workflow (не secret).
 # CLOUDFLARE_API_TOKEN — в GH secrets (см. Settings → Secrets and variables → Actions).
 
 name: Deploy to Cloudflare Pages
@@ -16,9 +16,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      CLOUDFLARE_ACCOUNT_ID: 4a9a09bd856895194e22f80eeddc12e3
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
     steps:
       - name: Checkout
@@ -33,5 +30,6 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 4a9a09bd856895194e22f80eeddc12e3
           wranglerVersion: "4"
           command: pages deploy . --project-name=zion-api-reference --branch=main
