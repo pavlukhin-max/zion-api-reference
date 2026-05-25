@@ -4,16 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zion API Reference</title>
-  <!-- TODO: заменить на /public/favicon.ico когда брендинг готов -->
-  <link rel="icon" href="data:," />
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+  <link rel="alternate icon" href="/public/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
   <style>
-    /*
-     * TODO: заменить palette на реальный Zion brand —
-     * взять из ~/ClaudeProjects/_zion_repo/zion/ (logo, основной цвет, акценты)
-     */
     :root {
-      --scalar-color-accent: #3b82f6;
-      --scalar-color-1: #0f172a;
+      --scalar-color-accent: #09BA69;
+      --scalar-color-1: #111111;
+      --scalar-color-2: #475569;
+      --scalar-color-3: #64748B;
+      --scalar-background-1: #FFFFFF;
+      --scalar-background-2: #FAFAF9;
+      --scalar-background-3: #F5F5F5;
+      --scalar-border-color: #E5E7EB;
+      --scalar-font: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --scalar-font-code: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .dark-mode {
+      --scalar-color-accent: #09BA69;
+      --scalar-color-1: #F8FAFC;
+      --scalar-color-2: #CBD5E1;
+      --scalar-color-3: #94A3B8;
+      --scalar-background-1: #0F172A;
+      --scalar-background-2: #1E293B;
+      --scalar-background-3: #334155;
+      --scalar-border-color: #334155;
     }
   </style>
 </head>
