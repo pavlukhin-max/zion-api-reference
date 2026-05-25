@@ -31,5 +31,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: 4a9a09bd856895194e22f80eeddc12e3
-          wranglerVersion: "4"
+          wranglerVersion: "4.94.0"
           command: pages deploy . --project-name=zion-api-reference --branch=main
