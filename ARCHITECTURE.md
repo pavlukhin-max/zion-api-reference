@@ -108,6 +108,18 @@ Architecture Decision Records — каталог решений:
 
 Каждое новое решение (например, «как структурировать гайды», «как добавить примеры кода») документируется отдельным ADR.
 
+## OpenAPI structure
+
+Подробные решения по структуре `openapi.yaml` — см. [docs/adr/002-openapi-structure.md](./docs/adr/002-openapi-structure.md). Короткое содержание:
+
+- **Domain decomposition.** 17 тегов по ресурсам (`Shops`, `Payments`, `Withdrawals`, …) сгруппированных в 6 верхнеуровневых категорий через Scalar-extension `x-tagGroups` (`Getting started`, `Commerce`, `Money out`, `Configuration`, `Analytics`, `Realtime`).
+- **Security scheme.** Один глобальный `apiKey` в header `Authorization` с подсказкой про префикс `Token <key>` (это DRF TokenAuthentication, не Bearer/OAuth). Public checkout-flow эндпоинты переопределяют `security: []`.
+- **Error envelope.** Две схемы: `Error` (`{detail}`) и `ValidationError` (словарь полей). Универсальные `components/responses` (`BadRequest`, `Unauthorized`, `Forbidden`, `NotFound`, `TooManyRequests`) ссылаются на них через `$ref` — никаких inline-error-схем в эндпоинтах.
+- **Pagination.** DRF `LimitOffsetPagination` (`?limit=&offset=`, default 10). Параметры — в `components/parameters`, envelope-схемы `Paginated<X>` — через `allOf` композицию с абстрактной `Page`.
+- **Webhooks.** Top-level `webhooks` секция OpenAPI 3.1 + payload schemas (`PaymentWebhookPayload`, etc.). HMAC SHA-1 подпись через header `X-Signature`.
+- **Naming.** PascalCase для schemas (`Payment`, `PaginatedPayments`, `PaymentCreateRequest`), snake_case для JSON-properties (зеркало Django сериализаторов).
+- **Examples.** Обязательны для каждого requestBody, каждого 200/201 response, основных error responses и webhook payloads.
+
 ## Что НЕ входит в scope
 
 Следующие технологии и паттерны **не используются** в этом проекте и не должны добавляться без явного запроса:
@@ -152,3 +164,10 @@ Architecture Decision Records — каталог решений:
 - [README.md](./README.md) — быстрый старт.
 - [CLAUDE.md](./CLAUDE.md) — инструкции для Claude Code.
 - [docs/adr/001-stack-scalar-cf-pages.md](./docs/adr/001-stack-scalar-cf-pages.md) — обоснование выбора стека.
+- [docs/adr/002-openapi-structure.md](./docs/adr/002-openapi-structure.md) — структура `openapi.yaml` (tags, security, errors, pagination, webhooks).
+
+## Журнал решений
+
+- 2026-05-25 — ADR-001: Scalar + Cloudflare Pages + OpenAPI 3.1 как стек публичной reference-документации.
+- 2026-05-25 — ADR-002: Структура `openapi.yaml` — 17 tags + x-tagGroups, apiKey-auth, Error/ValidationError envelopes, LimitOffsetPagination, top-level webhooks, PascalCase schemas / snake_case properties.
+
