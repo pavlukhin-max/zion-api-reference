@@ -1,0 +1,52 @@
+openapi: 3.1.0
+
+info:
+  title: Zion Crypto payment gateway
+  description: >
+    API криптоплатёжного шлюза Zion с поддержкой USDT и других криптовалют.
+    Требует аутентификацию через API-ключ, поддерживает вебхуки для оповещений
+    о статусе платежей в реальном времени с HMAC SHA-1 подписью.
+  version: "1.0.0"
+  contact:
+    name: Zion Payment
+    url: https://zionpayment.com
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://reference-v2.zionpayment.com
+    description: Production reference (placeholder host until Phase 2)
+
+tags:
+  - name: Health
+    description: Service health endpoints
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Service health check
+      description: Returns API liveness status.
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - ok
+                  timestamp:
+                    type: string
+                    format: date-time
+                required:
+                  - status
+                  - timestamp
+
+components:
+  schemas: {}

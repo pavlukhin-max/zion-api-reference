@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.env.*
+.vscode/
+.idea/
+dist/
+build/
+.cache/
+.wrangler/
+
+# Локальные agent memory / Hydra task tickets — не уходят в публичный репо
+.claude/

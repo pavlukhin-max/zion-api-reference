@@ -1,0 +1,34 @@
+# Деплой статического API reference сайта на Cloudflare Pages.
+# Target subdomain: reference-v2.zionpayment.com
+#
+# TODO перед первым деплоем:
+#   1. Создать GH-репо <owner>/zion-api-reference (owner уточняется)
+#   2. Залогиниться в Cloudflare (https://dash.cloudflare.com)
+#   3. Создать Cloudflare Pages project с именем zion-api-reference
+#   4. Привязать кастомный домен reference-v2.zionpayment.com к проекту в CF Pages
+#   5. Добавить в GH Secrets репо:
+#      - CLOUDFLARE_API_TOKEN  (права: Pages:Edit)
+#      - CLOUDFLARE_ACCOUNT_ID (из Overview → Account ID в CF Dashboard)
+
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy . --project-name=zion-api-reference --branch=main

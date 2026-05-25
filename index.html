@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zion API Reference</title>
+  <!-- TODO: заменить на /public/favicon.ico когда брендинг готов -->
+  <link rel="icon" href="data:," />
+  <style>
+    /*
+     * TODO: заменить palette на реальный Zion brand —
+     * взять из ~/ClaudeProjects/_zion_repo/zion/ (logo, основной цвет, акценты)
+     */
+    :root {
+      --scalar-color-accent: #3b82f6;
+      --scalar-color-1: #0f172a;
+    }
+  </style>
+</head>
+<body>
+  <script
+    id="api-reference"
+    data-url="./openapi.yaml"
+    data-configuration='{"theme":"default","layout":"modern","customCss":""}'
+  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+</body>
+</html>
