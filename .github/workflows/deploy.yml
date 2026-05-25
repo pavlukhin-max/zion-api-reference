@@ -4,6 +4,9 @@
 # Project в CF Pages: zion-api-reference (preview URL zion-api-reference.pages.dev).
 # accountId — публичный идентификатор, хранится прямо в workflow (не secret).
 # CLOUDFLARE_API_TOKEN — в GH secrets (см. Settings → Secrets and variables → Actions).
+#
+# Используем прямой npx wrangler вместо cloudflare/wrangler-action — последний даёт
+# 9106 Authentication failed для scoped токенов (cfut_…), несмотря на корректные креды.
 
 name: Deploy to Cloudflare Pages
 
@@ -27,9 +30,7 @@ jobs:
           node-version: "22"
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: 4a9a09bd856895194e22f80eeddc12e3
-          wranglerVersion: "4.94.0"
-          command: pages deploy . --project-name=zion-api-reference --branch=main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 4a9a09bd856895194e22f80eeddc12e3
+        run: npx --yes wrangler@4.94.0 pages deploy . --project-name=zion-api-reference --branch=main
