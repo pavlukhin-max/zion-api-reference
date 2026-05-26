@@ -1,6 +1,8 @@
 # Zion API Reference
 
-Публичный API reference сайт для криптоплатёжного шлюза Zion. Построен на [Scalar](https://scalar.com) (веб-компонент для OpenAPI), распределяется через Cloudflare Pages. Источник правды — `openapi.yaml` в корне репо.
+Публичный API reference сайт для криптоплатёжного шлюза Zion. Построен на [Scalar](https://scalar.com) (веб-компонент для OpenAPI), хостится в Cloudflare. Источник правды — `openapi.yaml` в корне репо.
+
+**Production:** https://reference-v2.zionpayment.com
 
 ## Локальный запуск
 
@@ -26,12 +28,13 @@ npx serve .
 ├── openapi.yaml              # Источник правды по API (OpenAPI 3.1)
 ├── index.html                # Scalar viewer, подключает Scalar через CDN
 ├── guides/                   # Markdown-страницы (гайды, примеры) — Phase 3
-├── public/                   # Статические файлы: favicon, лого, OG-image
+├── public/                   # Статические файлы: favicon, лого
 ├── docs/adr/                 # Architecture Decision Records
 │   ├── 000-template.md       # Шаблон для новых ADR
-│   └── 001-stack-scalar-cf-pages.md  # Обоснование стека
-├── .github/workflows/deploy.yml  # GitHub Actions для Cloudflare Pages
+│   ├── 001-stack-scalar-cf-pages.md  # Обоснование стека
+│   └── 002-openapi-structure.md      # Структура openapi.yaml
 ├── .gitignore
+├── ARCHITECTURE.md           # Архитектура и пайплайн
 └── CLAUDE.md                 # Инструкции для Claude Code
 ```
 
@@ -51,18 +54,21 @@ git commit -m "docs: добавлен guide по аутентификации"
 git push origin main
 ```
 
-Cloudflare Pages автоматически перестроит сайт за ~1–2 минуты после push в `main`.
+Cloudflare Workers с native Git integration автоматически перевыкатит сайт за ~30 секунд после push в `main`.
 
 ## Production
 
-Целевой домен: **`reference-v2.zionpayment.com`** (настраивается в Phase 2).
+Live: **https://reference-v2.zionpayment.com**
 
-На этапе Phase 0 сайт хостится локально или на staging-домене. После интеграции с Cloudflare Pages и GitHub (Phase 2) каждый push в `main` автоматически деплоится на production.
+Также доступно по auto-generated субдомену Cloudflare: `https://zion-api-reference.avery-tech2170.workers.dev`.
+
+Хостинг: Cloudflare Workers Static Assets (унифицированная модель CF, пришедшая на смену классическому Cloudflare Pages). Project name — `zion-api-reference`, production branch — `main`, build-step отсутствует (raw static).
 
 ## Документация
 
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** — общая архитектура, пайплайны, компоненты.
-- **[docs/adr/001-stack-scalar-cf-pages.md](./docs/adr/001-stack-scalar-cf-pages.md)** — почему выбраны именно Scalar и Cloudflare Pages.
+- **[docs/adr/001-stack-scalar-cf-pages.md](./docs/adr/001-stack-scalar-cf-pages.md)** — почему выбраны Scalar и Cloudflare.
+- **[docs/adr/002-openapi-structure.md](./docs/adr/002-openapi-structure.md)** — структура `openapi.yaml` (tags, security, errors, pagination, webhooks).
 - **[CLAUDE.md](./CLAUDE.md)** — инструкции для Claude Code в этом проекте.
 
 ## Что входит в scope, а что нет
@@ -72,8 +78,7 @@ Cloudflare Pages автоматически перестроит сайт за ~
 - OpenAPI 3.1 спецификация (все эндпоинты и схемы)
 - Scalar веб-компонент (CDN)
 - Markdown-гайды по использованию API
-- Cloudflare Pages хостинг
-- GitHub Actions auto-deploy
+- Cloudflare хостинг с native Git integration auto-deploy
 
 ### ❌ Не входит в scope
 - Backend / API-сервер

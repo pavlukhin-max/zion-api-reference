@@ -24,6 +24,8 @@
 
 **Cloudflare Pages** для статического хостинга — авто-деплой из ветки `main` через GitHub Actions (wrangler-action). Кастомный домен `reference-v2.zionpayment.com`.
 
+> **Amendment 2026-05-26:** CF UI пересоздала project как **Workers Static Assets** через native Git integration (новая унифицированная модель CF: Pages постепенно мигрирует в Workers). Модель статики не изменилась — статика на CDN, билд отсутствует, домен тот же. Изменился только механизм деплоя: GitHub Actions удалён, CF сам клонирует репо и публикует. См. CLAUDE.md / ARCHITECTURE.md.
+
 **Один бранч `main`** без feature branches на статике — для документационного репо ветвление создаёт накладные расходы без пользы.
 
 ## Альтернативы
