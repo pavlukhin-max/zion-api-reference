@@ -12,3 +12,7 @@ build/
 
 # Локальные agent memory / Hydra task tickets — не уходят в публичный репо
 .claude/
+
+.dev.vars*
+!.dev.vars.example
+!.env.example
